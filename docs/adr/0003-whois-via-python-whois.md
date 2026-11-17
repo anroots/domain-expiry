@@ -4,5 +4,5 @@ Expiry data comes from WHOIS (port 43), parsed by the `python-whois` library, fo
 
 ## Consequences
 
-- EURid's public WHOIS appears not to publish an Expiry (python-whois's `.eu` parser has no expiration field). python-whois's `.eu` parser has no status field either, so `.eu` Probes report only whether the Domain is Registered, with no Status and no Expiry. Getting a real `.eu` Expiry would need a separate source, such as a registrar API.
-- python-whois is blocking, so lookups must run off the request path.
+- EURid's public WHOIS publishes neither an Expiry nor a Status (confirmed against whois.eurid.eu on 2026-11-16), so `.eu` Probes report only whether the Domain is Registered, with no Status and no Expiry. Getting a real `.eu` Expiry would need a separate source, such as a registrar API.
+- python-whois is blocking. Cache misses are looked up one at a time on a single background worker, so a slow registry delays the lookups queued behind it. HTTP requests are served on their own threads, so health checks and `/metrics` still answer meanwhile (an earlier fully single-threaded server could be frozen by one idle connection). Each lookup has one overall deadline (20s by default) covering every WHOIS server it contacts.

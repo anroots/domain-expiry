@@ -1,0 +1,32 @@
+{{- if .Values.probe.enabled }}
+{{- if not .Values.probe.domains }}
+{{- fail "probe.enabled is true but probe.domains is empty" }}
+{{- end }}
+apiVersion: monitoring.coreos.com/v1
+kind: Probe
+metadata:
+  name: {{ include "domain-expiry.fullname" . }}
+  labels:
+    {{- include "domain-expiry.labels" . | nindent 4 }}
+    {{- with .Values.probe.additionalLabels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+spec:
+  jobName: domain-expiry
+  interval: {{ .Values.probe.interval }}
+  scrapeTimeout: {{ .Values.probe.scrapeTimeout }}
+  prober:
+    url: {{ printf "%s.%s.svc:%v" (include "domain-expiry.fullname" .) .Release.Namespace .Values.service.port }}
+    path: /probe
+    scheme: http
+  targets:
+    staticConfig:
+      static:
+        {{- range .Values.probe.domains }}
+        - {{ . | quote }}
+        {{- end }}
+      {{- with .Values.probe.labels }}
+      labels:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+{{- end }}
