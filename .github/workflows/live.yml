@@ -1,0 +1,22 @@
+name: Live WHOIS
+
+# Real lookups against the .com, .ee and .eu registries, to catch WHOIS format
+# changes before they silently break Probes.
+on:
+  schedule:
+    - cron: "17 6 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  live:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
+        with:
+          python-version: "3.15"
+      - run: pip install -e ".[dev]"
+      - run: pytest -m live -v

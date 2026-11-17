@@ -1,0 +1,41 @@
+[build-system]
+requires = ["setuptools>=80"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "domain-expiry"
+version = "0.1.0"
+description = "Prometheus exporter for domain registration expiry, using WHOIS"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.13"
+dependencies = [
+    "prometheus-client==0.26.0",
+    "python-whois==0.9.6",
+    "publicsuffixlist==1.1.2.20261115",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest==9.2.0",
+    "ruff==0.17.5",
+]
+
+[project.scripts]
+domain-expiry = "domain_expiry.__main__:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+markers = ["live: performs real WHOIS lookups over the network (deselected by default)"]
+addopts = "-m 'not live'"
+
+[tool.ruff]
+line-length = 100
+target-version = "py313"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "SIM"]

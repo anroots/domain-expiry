@@ -1,0 +1,35 @@
+version: 2
+
+# All version updates across ecosystems land in a single PR.
+multi-ecosystem-groups:
+  all:
+    schedule:
+      interval: weekly
+
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    patterns: ["*"]
+    multi-ecosystem-group: all
+    groups:
+      security:
+        applies-to: security-updates
+        patterns: ["*"]
+
+  - package-ecosystem: pip
+    directory: /
+    patterns: ["*"]
+    multi-ecosystem-group: all
+    groups:
+      security:
+        applies-to: security-updates
+        patterns: ["*"]
+
+  - package-ecosystem: docker
+    directory: /
+    patterns: ["*"]
+    multi-ecosystem-group: all
+    groups:
+      security:
+        applies-to: security-updates
+        patterns: ["*"]
