@@ -27,28 +27,21 @@ class Config:
             try:
                 return cast(raw)
             except ValueError:
-                raise ValueError(
-                    f"{PREFIX}{name}={raw!r} is not a valid {cast.__name__}") from None
+                raise ValueError(f"{PREFIX}{name}={raw!r} is not a valid {cast.__name__}") from None
 
         d = cls()
         cfg = cls(
             listen_address=get("LISTEN_ADDRESS", str, d.listen_address),
             port=get("PORT", int, d.port),
-            cache_ttl_seconds=get("CACHE_TTL_SECONDS",
-                                  float, d.cache_ttl_seconds),
-            failure_ttl_seconds=get(
-                "FAILURE_TTL_SECONDS", float, d.failure_ttl_seconds),
-            cache_max_entries=get("CACHE_MAX_ENTRIES",
-                                  int, d.cache_max_entries),
-            lookup_timeout_seconds=get(
-                "LOOKUP_TIMEOUT_SECONDS", float, d.lookup_timeout_seconds),
-            timeout_offset_seconds=get(
-                "TIMEOUT_OFFSET_SECONDS", float, d.timeout_offset_seconds),
+            cache_ttl_seconds=get("CACHE_TTL_SECONDS", float, d.cache_ttl_seconds),
+            failure_ttl_seconds=get("FAILURE_TTL_SECONDS", float, d.failure_ttl_seconds),
+            cache_max_entries=get("CACHE_MAX_ENTRIES", int, d.cache_max_entries),
+            lookup_timeout_seconds=get("LOOKUP_TIMEOUT_SECONDS", float, d.lookup_timeout_seconds),
+            timeout_offset_seconds=get("TIMEOUT_OFFSET_SECONDS", float, d.timeout_offset_seconds),
             log_level=get("LOG_LEVEL", str, d.log_level).upper(),
         )
         if cfg.cache_max_entries < 1:
             raise ValueError(f"{PREFIX}CACHE_MAX_ENTRIES must be at least 1")
         if cfg.lookup_timeout_seconds <= 0:
-            raise ValueError(
-                f"{PREFIX}LOOKUP_TIMEOUT_SECONDS must be positive")
+            raise ValueError(f"{PREFIX}LOOKUP_TIMEOUT_SECONDS must be positive")
         return cfg
