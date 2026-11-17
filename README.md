@@ -44,7 +44,7 @@ fills. Health checks and `/metrics` answer even while lookups are slow.
 ## Running
 
 ```bash
-docker run -p 9019:9019 ghcr.io/anroots/domain-expiry
+docker run -p 9019:9019 ghcr.io/anroots/domain-expiry:0.1.1
 curl 'localhost:9019/probe?target=example.com'
 ```
 

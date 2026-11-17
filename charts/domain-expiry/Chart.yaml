@@ -3,8 +3,8 @@ name: domain-expiry
 description: Prometheus exporter for domain registration expiry, using WHOIS
 type: application
 # Both are overwritten from the git tag by the release workflow.
-version: 0.1.0
-appVersion: "0.1.0"
+version: 0.1.1
+appVersion: "0.1.1"
 home: https://github.com/anroots/domain-expiry
 sources:
   - https://github.com/anroots/domain-expiry
