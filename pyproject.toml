@@ -12,13 +12,13 @@ requires-python = ">=3.13"
 dependencies = [
     "prometheus-client==0.26.0",
     "python-whois==0.9.6",
-    "publicsuffixlist==1.1.2.20261115",
+    "publicsuffixlist==1.1.2.20261121",
 ]
 
 [project.optional-dependencies]
 dev = [
     "pytest==9.2.0",
-    "ruff==0.17.5",
+    "ruff==0.17.6",
 ]
 
 [project.scripts]
